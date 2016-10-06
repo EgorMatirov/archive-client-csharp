@@ -1,0 +1,9 @@
+[submodule "ArchiveClient/protos/archive"]
+	path = ArchiveClient/protos/archive
+	url = https://github.com/bacsorg/archive.git
+[submodule "ArchiveClient/protos/common"]
+	path = ArchiveClient/protos/common
+	url = https://github.com/bacsorg/common.git
+[submodule "ArchiveClient/protos/problem"]
+	path = ArchiveClient/protos/problem
+	url = https://github.com/bacsorg/problem.git
