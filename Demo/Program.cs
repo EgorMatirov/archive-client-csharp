@@ -54,6 +54,7 @@ namespace Demo
         {
             return ArchiveClientFactory.Create(
                 options.Host,
+                options.Port,
                 options.ClientCertificate,
                 options.ClientKey,
                 options.CaCertificate);

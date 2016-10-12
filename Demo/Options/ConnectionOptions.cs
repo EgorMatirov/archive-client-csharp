@@ -4,8 +4,11 @@ namespace Demo.Options
 {
     public class ConnectionOptions
     {
-        [Option('h', "host", HelpText = "host:port", Required = true)]
+        [Option('h', "host", Required = true)]
         public string Host { get; set; }
+
+        [Option('p', "port", Required = true)]
+        public int Port { get; set; }
 
         [Option("cert", HelpText = "Client certificate", Required = true)]
         public string ClientCertificate { get; set; }
