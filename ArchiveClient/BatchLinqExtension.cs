@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Demo
+namespace ArchiveClient
 {
     internal static class BatchLinqExtension
     {

@@ -55,7 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BatchLinqExtension.cs" />
     <Compile Include="Options\ConnectionOptions.cs" />
     <Compile Include="Options\DownloadOptions.cs" />
     <Compile Include="Options\ExistingAllOptions.cs" />
