@@ -34,8 +34,7 @@ namespace Demo
         {
             var client = CreateClient(options);
             var bytes = client
-                .Download(new GzFormat(GzFormat.GzFormatType.Tar), options.Id)
-                .Result;
+                .Download(new GzFormat(GzFormat.GzFormatType.Tar), options.Id);
             File.WriteAllBytes(options.Target, bytes);
             return 0;
         }

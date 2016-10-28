@@ -20,7 +20,7 @@ namespace ArchiveClient
             _innerClient = innerClient;
         }
 
-        public async Task<byte[]> Download(IFormat format, params string[] ids)
+        public async Task<byte[]> DownloadAsync(IFormat format, params string[] ids)
         {
             var r = _innerClient.Download(new DownloadRequest
             {
@@ -31,7 +31,18 @@ namespace ArchiveClient
             return list.SelectMany(x => x.Data.ToByteArray()).ToArray();
         }
 
-        public async void Upload(IFormat format, IEnumerable<byte> bytes)
+        public byte[] Download(IFormat format, params string[] ids)
+        {
+            var r = _innerClient.Download(new DownloadRequest
+            {
+                Format = new Archiver {Format = format.Format, Type = format.Type},
+                Ids = GrpcExtensions.IdSetFromIds(ids)
+            });
+            var list = r.ResponseStream.ToListAsync().Result;
+            return list.SelectMany(x => x.Data.ToByteArray()).ToArray();
+        }
+
+        public async Task UploadAsync(IFormat format, IEnumerable<byte> bytes)
         {
             var stream = _innerClient.Upload();
             var chunks = bytes
@@ -44,6 +55,21 @@ namespace ArchiveClient
                     Format = new Archiver {Format = format.Format, Type = format.Type}
                 })
             );
+        }
+
+        public void Upload(IFormat format, IEnumerable<byte> bytes)
+        {
+            var stream = _innerClient.Upload();
+            var chunks = bytes
+                .Batch(1024*1024)
+                .Select(x => x.ToArray());
+            stream.RequestStream.WriteAllAsync(
+                chunks.Select(x => new Chunk
+                {
+                    Data = ByteString.CopyFrom(x),
+                    Format = new Archiver {Format = format.Format, Type = format.Type}
+                })
+            ).Wait();
         }
 
         public StatusResult Rename(string from, string to)

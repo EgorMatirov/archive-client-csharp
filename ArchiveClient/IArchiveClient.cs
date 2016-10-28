@@ -8,7 +8,9 @@ namespace ArchiveClient
     {
         StatusResult Rename(string from, string to);
 
-        Task<byte[]> Download(IFormat format, params string[] ids);
+        Task<byte[]> DownloadAsync(IFormat format, params string[] ids);
+        byte[] Download(IFormat format, params string[] ids);
+        Task UploadAsync(IFormat format, IEnumerable<byte> bytes);
         void Upload(IFormat format, IEnumerable<byte> bytes);
 
         IEnumerable<string> Existing(params string[] ids);
