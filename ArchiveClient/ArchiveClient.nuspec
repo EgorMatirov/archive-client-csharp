@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>EgorMatirov.ArchiveClient</id>
+    <version>1.0.1.0</version>
+    <title>$title$</title>
+    <authors>EgorMatirov</authors>
+    <owners>EgorMatirov</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>gRPC client for Bacs.Archive</description>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>bacs</tags>
+  </metadata>
+</package>
