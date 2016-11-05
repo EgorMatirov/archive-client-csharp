@@ -10,8 +10,8 @@ namespace ArchiveClient
 
         Task<byte[]> DownloadAsync(IFormat format, params string[] ids);
         byte[] Download(IFormat format, params string[] ids);
-        Task UploadAsync(IFormat format, IEnumerable<byte> bytes);
-        void Upload(IFormat format, IEnumerable<byte> bytes);
+        Task<Dictionary<string, StatusResult>> UploadAsync(IFormat format, IEnumerable<byte> bytes);
+        Dictionary<string, StatusResult> Upload(IFormat format, IEnumerable<byte> bytes);
 
         IEnumerable<string> Existing(params string[] ids);
         IEnumerable<string> ExistingAll();

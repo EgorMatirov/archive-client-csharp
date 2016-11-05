@@ -42,7 +42,7 @@ namespace ArchiveClient
             return list.SelectMany(x => x.Data.ToByteArray()).ToArray();
         }
 
-        public async Task UploadAsync(IFormat format, IEnumerable<byte> bytes)
+        public async Task<Dictionary<string, StatusResult>> UploadAsync(IFormat format, IEnumerable<byte> bytes)
         {
             var stream = _innerClient.Upload();
             var chunks = bytes
@@ -55,9 +55,11 @@ namespace ArchiveClient
                     Format = new Archiver {Format = format.Format, Type = format.Type}
                 })
             );
+            var response = await stream.ResponseAsync;
+            return response.Entry.ToDictionary();
         }
 
-        public void Upload(IFormat format, IEnumerable<byte> bytes)
+        public Dictionary<string, StatusResult> Upload(IFormat format, IEnumerable<byte> bytes)
         {
             var stream = _innerClient.Upload();
             var chunks = bytes
@@ -70,6 +72,7 @@ namespace ArchiveClient
                     Format = new Archiver {Format = format.Format, Type = format.Type}
                 })
             ).Wait();
+            return stream.ResponseAsync.Result.Entry.ToDictionary();
         }
 
         public StatusResult Rename(string from, string to)

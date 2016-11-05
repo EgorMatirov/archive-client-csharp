@@ -23,10 +23,14 @@ namespace Demo
         private static int Upload(UploadOptions options)
         {
             var client = CreateClient(options);
-            client.Upload(
+            var statusMap = client.Upload(
                 new GzFormat(GzFormat.GzFormatType.Tar),
                 File.ReadAllBytes(options.Source)
             );
+            foreach (var keyValuePair in statusMap)
+            {
+                Console.WriteLine($"Key: {keyValuePair.Key}; value: {keyValuePair.Value}");
+            }
             return 0;
         }
 
