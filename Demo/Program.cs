@@ -24,7 +24,7 @@ namespace Demo
         {
             var client = CreateClient(options);
             var statusMap = client.Upload(
-                new GzFormat(GzFormat.GzFormatType.Tar),
+                new TarFormat(TarFormat.TarFormatType.Tar),
                 File.ReadAllBytes(options.Source)
             );
             foreach (var keyValuePair in statusMap)
@@ -38,7 +38,7 @@ namespace Demo
         {
             var client = CreateClient(options);
             var bytes = client
-                .Download(new GzFormat(GzFormat.GzFormatType.Tar), options.Id);
+                .Download(new SevenZipFormat(SevenZipFormat.SevenZipFormatType.Zip), options.Id);
             File.WriteAllBytes(options.Target, bytes);
             return 0;
         }

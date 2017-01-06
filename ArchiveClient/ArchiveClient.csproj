@@ -89,7 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GrpcExtensions.cs" />
-    <Compile Include="GzFormat.cs" />
+    <Compile Include="TarFormat.cs" />
     <Compile Include="IArchiveClient.cs" />
     <Compile Include="IFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
