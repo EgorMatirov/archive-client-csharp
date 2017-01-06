@@ -20,29 +20,29 @@ namespace ArchiveClient
             _innerClient = innerClient;
         }
 
-        public async Task<byte[]> DownloadAsync(IFormat format, params string[] ids)
+        public async Task<byte[]> DownloadAsync(IArchiveType archiveType, params string[] ids)
         {
             var r = _innerClient.Download(new DownloadRequest
             {
-                Format = new Archiver {Format = format.Format, Type = format.Type},
+                Format = new Archiver {Format = archiveType.Format, Type = archiveType.Type},
                 Ids = GrpcExtensions.IdSetFromIds(ids)
             });
             var list = await r.ResponseStream.ToListAsync();
             return list.SelectMany(x => x.Data.ToByteArray()).ToArray();
         }
 
-        public byte[] Download(IFormat format, params string[] ids)
+        public byte[] Download(IArchiveType archiveType, params string[] ids)
         {
             var r = _innerClient.Download(new DownloadRequest
             {
-                Format = new Archiver {Format = format.Format, Type = format.Type},
+                Format = new Archiver {Format = archiveType.Format, Type = archiveType.Type},
                 Ids = GrpcExtensions.IdSetFromIds(ids)
             });
             var list = r.ResponseStream.ToListAsync().Result;
             return list.SelectMany(x => x.Data.ToByteArray()).ToArray();
         }
 
-        public async Task<Dictionary<string, StatusResult>> UploadAsync(IFormat format, IEnumerable<byte> bytes)
+        public async Task<Dictionary<string, StatusResult>> UploadAsync(IArchiveType archiveType, IEnumerable<byte> bytes)
         {
             var stream = _innerClient.Upload();
             var chunks = bytes
@@ -52,14 +52,14 @@ namespace ArchiveClient
                 chunks.Select(x => new Chunk
                 {
                     Data = ByteString.CopyFrom(x),
-                    Format = new Archiver {Format = format.Format, Type = format.Type}
+                    Format = new Archiver {Format = archiveType.Format, Type = archiveType.Type}
                 })
             );
             var response = await stream.ResponseAsync;
             return response.Entry.ToDictionary();
         }
 
-        public Dictionary<string, StatusResult> Upload(IFormat format, IEnumerable<byte> bytes)
+        public Dictionary<string, StatusResult> Upload(IArchiveType archiveType, IEnumerable<byte> bytes)
         {
             var stream = _innerClient.Upload();
             var chunks = bytes
@@ -69,7 +69,7 @@ namespace ArchiveClient
                 chunks.Select(x => new Chunk
                 {
                     Data = ByteString.CopyFrom(x),
-                    Format = new Archiver {Format = format.Format, Type = format.Type}
+                    Format = new Archiver {Format = archiveType.Format, Type = archiveType.Type}
                 })
             ).Wait();
             return stream.ResponseAsync.Result.Entry.ToDictionary();

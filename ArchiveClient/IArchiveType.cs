@@ -1,6 +1,6 @@
 ﻿namespace ArchiveClient
 {
-    public interface IFormat
+    public interface IArchiveType
     {
         string Type { get; }
         string Format { get; }

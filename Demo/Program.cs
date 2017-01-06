@@ -23,10 +23,7 @@ namespace Demo
         private static int Upload(UploadOptions options)
         {
             var client = CreateClient(options);
-            var statusMap = client.Upload(
-                new TarFormat(TarFormat.TarFormatType.Tar),
-                File.ReadAllBytes(options.Source)
-            );
+            var statusMap = client.Upload(SevenZipArchive.ZipFormat, File.ReadAllBytes(options.Source));
             foreach (var keyValuePair in statusMap)
             {
                 Console.WriteLine($"Key: {keyValuePair.Key}; value: {keyValuePair.Value}");
@@ -37,8 +34,7 @@ namespace Demo
         private static int Download(DownloadOptions options)
         {
             var client = CreateClient(options);
-            var bytes = client
-                .Download(new SevenZipFormat(SevenZipFormat.SevenZipFormatType.Zip), options.Id);
+            var bytes = client.Download(SevenZipArchive.ZipFormat, options.Id);
             File.WriteAllBytes(options.Target, bytes);
             return 0;
         }
